@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.dark-blue-background {
+  background: #0a3d62;
+}
+
+.lighter-dark-blue-background {
+  background: #273c75;
+}
+
+.dark-blue-text {
+  color: #0a3d62;
+}
+
+.lighter-dark-blue-text {
+  color: #273c75;
+}

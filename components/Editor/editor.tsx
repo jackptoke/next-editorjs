@@ -1,6 +1,7 @@
-import React, { FunctionComponent, useEffect, useState } from "react"
-import EditorJS, { ToolConstructable, ToolSettings } from "@editorjs/editorjs"
-import { tools } from "./tools"
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import EditorJS, { ToolConstructable, ToolSettings } from '@editorjs/editorjs';
+import { tools } from './tools';
+import Script from 'next/script';
 
 /**
  *
@@ -14,13 +15,13 @@ export const useEditor = (
   { data, editorRef },
   options: EditorJS.EditorConfig = {}
 ) => {
-  const [editorInstance, setEditor] = useState(null)
+  const [editorInstance, setEditor] = useState(null);
   const {
     data: ignoreData,
     tools: ignoreTools,
     holder: ignoreHolder,
     ...editorOptions
-  } = options
+  } = options;
 
   // initialize
   useEffect(() => {
@@ -29,7 +30,7 @@ export const useEditor = (
       /**
        * Id of Element that should contain the Editor
        */
-      holder: "editor-js",
+      holder: 'editor-js',
 
       /**
        * Available Tools list.
@@ -42,45 +43,45 @@ export const useEditor = (
        */
       data: data || {},
 
-      initialBlock: "paragraph",
+      initialBlock: 'paragraph',
 
       // Override editor options
       ...editorOptions,
-    })
+    });
 
-    setEditor(editor)
+    setEditor(editor);
 
     // cleanup
     return () => {
       editor.isReady
         .then(() => {
-          editor.destroy()
-          setEditor(null)
+          editor.destroy();
+          setEditor(null);
         })
-        .catch((e) => console.error("ERROR editor cleanup", e))
-    }
-  }, [toolsList])
+        .catch((e) => console.error('ERROR editor cleanup', e));
+    };
+  }, [toolsList]);
 
   // set reference
   useEffect(() => {
     if (!editorInstance) {
-      return
+      return;
     }
     // Send instance to the parent
     if (editorRef) {
-      editorRef(editorInstance)
+      editorRef(editorInstance);
     }
-  }, [editorInstance, editorRef])
+  }, [editorInstance, editorRef]);
 
-  return { editor: editorInstance }
-}
+  return { editor: editorInstance };
+};
 
 export const EditorContainer = ({ editorRef, children, data, options }) => {
-  useEditor(tools, { data, editorRef }, options)
+  useEditor(tools, { data, editorRef }, options);
 
   return (
     <React.Fragment>
-      {!children && <div className="container" id="editor-js"></div>}
+      {!children && <div className='container' id='editor-js'></div>}
       {children}
       <style jsx>{`
         .container {
@@ -89,6 +90,7 @@ export const EditorContainer = ({ editorRef, children, data, options }) => {
           padding: 2px 0;
         }
       `}</style>
+      <Script src='https://cdn.jsdelivr.net/npm/@editorjs/embed@latest'></Script>
     </React.Fragment>
-  )
-}
+  );
+};
